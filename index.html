@@ -22,7 +22,7 @@
             background-color: #f0f4f8;
         }
 
-        /* 배경 이미지를 원래 일러스트처럼 밝고 화사하게 유지 */
+        /* [기본 배경] 원래 일러스트처럼 밝고 화사함 유지 */
         .bg-container {
             position: absolute;
             top: 0;
@@ -35,56 +35,80 @@
             filter: brightness(1.05) saturate(1.1);
         }
 
-        /* 화사한 빛샘 효과 스타일의 투명 오버레이 */
+        /* [신규 이펙트 1] 화면에 오로라가 치는 듯한 몽환적인 빛의 레이어 */
+        .aurora-layer {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(224, 242, 255, 0.3) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(230, 215, 255, 0.25) 0%, transparent 45%),
+                        radial-gradient(circle at 50% 50%, rgba(255, 240, 245, 0.2) 0%, transparent 50%);
+            z-index: 2;
+            animation: auroraRotate 30s infinite linear;
+            mix-blend-mode: color-dodge; /* 아래 배경과 빛을 겹치게 만들어 화사함 증폭 */
+            pointer-events: none;
+        }
+
+        /* [신규 이펙트 2] 하늘에서 사선으로 내리쬐는 영롱한 빛무리(Light Rays) 효과 */
+        .light-rays {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(115deg, 
+                rgba(255,255,255,0.2) 0%, 
+                rgba(255,255,255,0) 20%, 
+                rgba(255,255,255,0.15) 40%, 
+                rgba(255,255,255,0) 60%, 
+                rgba(255,255,255,0.1) 80%, 
+                rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            z-index: 2;
+            animation: rayShimmer 15s infinite linear;
+            pointer-events: none;
+        }
+
+        /* UI 가독성을 조율해주는 미세 보정 오버레이 */
         .bg-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.2) 0%, 
-                rgba(230, 242, 255, 0.1) 50%, 
-                rgba(15, 20, 40, 0.45) 100%);
-            z-index: 2;
-        }
-
-        /* 반짝반짝 빛나는 별빛 파티클 효과 레이어 */
-        .sparkles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(240, 245, 255, 0.05) 60%, 
+                rgba(25, 20, 45, 0.35) 100%); /* 하단 가독성 확보 */
             z-index: 3;
             pointer-events: none;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
-                radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.9) 2px, transparent 2px),
-                radial-gradient(circle at 40% 40%, rgba(230, 240, 255, 0.8) 1.5px, transparent 1.5px),
-                radial-gradient(circle at 90% 85%, rgba(255, 215, 0, 0.6) 2px, transparent 2px),
-                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
-            background-size: 400px 400px;
-            animation: sparkleUp 12s infinite linear;
-            opacity: 0.85;
         }
 
-        .sparkles-delayed {
+        /* [업그레이드 파티클] 별빛 가루 이펙트 레이어 1 */
+        .sparkles-1 {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 4;
             pointer-events: none;
             background-image: 
-                radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.85) 2px, transparent 2px),
-                radial-gradient(circle at 30% 15%, rgba(135, 206, 250, 0.7) 1.5px, transparent 1.5px),
-                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.9) 1px, transparent 1px);
-            background-size: 300px 300px;
-            animation: sparkleUp 8s infinite linear;
-            animation-delay: 4s;
-            opacity: 0.75;
+                radial-gradient(circle at 15% 75%, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 65% 25%, rgba(255, 255, 255, 0.95) 2.5px, transparent 2.5px),
+                radial-gradient(circle at 35% 45%, rgba(225, 245, 255, 0.85) 2px, transparent 2px),
+                radial-gradient(circle at 85% 80%, rgba(255, 235, 180, 0.7) 2px, transparent 2px),
+                radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.8) 1.5px, transparent 1.5px);
+            background-size: 350px 350px;
+            animation: sparkleUp 10s infinite linear;
+            opacity: 0.9;
+        }
+
+        /* [업그레이드 파티클] 금빛/은빛 요정의 가루 레이어 2 (서로 다른 속도로 교차) */
+        .sparkles-2 {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 4;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(circle at 45% 55%, rgba(255, 255, 255, 0.9) 2px, transparent 2px),
+                radial-gradient(circle at 25% 10%, rgba(180, 230, 255, 0.8) 2px, transparent 2px),
+                radial-gradient(circle at 75% 65%, rgba(255, 220, 235, 0.9) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 90% 40%, rgba(255, 255, 255, 0.85) 1px, transparent 1px);
+            background-size: 250px 250px;
+            animation: sparkleUp 7s infinite linear;
+            animation-delay: -3.5s;
+            opacity: 0.8;
         }
 
         /* 메인 UI 컨테이너 */
@@ -92,7 +116,7 @@
             position: relative;
             width: 100%;
             height: 100%;
-            z-index: 4;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -164,7 +188,7 @@
             padding: 10px 0;
         }
 
-        /* 대륙 이벤트 보드 디자인 (유리 느낌) */
+        /* 대륙 이벤트 보드 디자인 (유리모드) */
         .event-board {
             width: 46%;
             background: rgba(255, 255, 255, 0.45);
@@ -245,7 +269,7 @@
             color: #666680;
         }
 
-        /* 로그인 박스 (블러 유리 구역) */
+        /* 로그인 박스 */
         .login-card {
             width: 40%;
             max-width: 410px;
@@ -443,7 +467,6 @@
         .modal-title { font-size: 21px; font-weight: 700; margin-bottom: 8px; color: #1a1528; line-height: 1.4; }
         .modal-date { font-size: 12.5px; color: #666680; margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 10px; }
         
-        /* 알림창 본문 내 줄바꿈과 세부 디자인용 */
         .modal-desc { 
             font-size: 14.5px; 
             line-height: 1.75; 
@@ -478,26 +501,46 @@
         }
         .modal-close-btn:hover { background: #6a5acd; }
 
-        /* 애니메이션 키프레임 */
+        /* -----------------------------------------------------------------
+           ★ 코드 이펙트를 극대화해주는 강력한 CSS 애니메이션 키프레임들
+        ----------------------------------------------------------------- */
+        
+        /* 1. 배경 완만한 숨쉬기 */
         @keyframes bgBreath {
             0% { transform: scale(1.0); }
-            100% { transform: scale(1.05); }
+            100% { transform: scale(1.04); }
         }
 
+        /* 2. 오로라 빛무리 회전 애니메이션 */
+        @keyframes auroraRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 3. 내리쬐는 세로 빛샘(Shimmer) 좌우 이동 애니메이션 */
+        @keyframes rayShimmer {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        /* 4. 별빛 가루가 무한히 위로 흐르는 애니메이션 */
         @keyframes sparkleUp {
-            0% { background-position: 0px 400px; }
+            0% { background-position: 0px 350px; }
             100% { background-position: 0px 0px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- 배경 일러스트 위에 실시간 코드 이펙트 레이어들을 얹어 완성도를 극대화 -->
     <div class="bg-container"></div>
+    <div class="aurora-layer"></div>
+    <div class="light-rays"></div>
     <div class="bg-overlay"></div>
     
-    <!-- 반짝이 이펙트 레이어 2단 -->
-    <div class="sparkles"></div>
-    <div class="sparkles-delayed"></div>
+    <!-- 중첩된 무한 루프 입자(파티클) 효과 -->
+    <div class="sparkles-1"></div>
+    <div class="sparkles-2"></div>
 
     <div class="ui-wrapper">
         <!-- 상단 헤더 -->
@@ -515,7 +558,7 @@
         <!-- 중앙 메인 섹션 -->
         <div class="center-content">
             
-            <!-- 이벤트 보드 리스트 (클릭 시 전용 스크립트로 팝업 데이터 주입) -->
+            <!-- 이벤트 보드 리스트 -->
             <div class="event-board">
                 <div class="event-title">진행 중인 대륙 이벤트</div>
                 
@@ -542,8 +585,8 @@
             <div class="login-card">
                 <div class="sys-alert">[ SYSTEM · ALERT ]</div>
                 <p class="waiting-text">
-                    플레이어들과 <strong>Ativan711</strong>이<br>
-                    <strong>용사</strong>님의 접속을 기다립니다!
+                    플레이어들과 <strong>서한결</strong>이<br>
+                    <strong>콩먹는콩벌레</strong>님의 접속을 기다립니다.
                 </p>
 
                 <form onsubmit="event.preventDefault(); alert('오르비스 온라인에 접속합니다... ◈ CONNECTED');">
@@ -583,7 +626,7 @@
         </div>
     </div>
 
-    <!-- 팝업별 상세 텍스트 제어 스크립트 -->
+    <!-- 팝업 데이터 핸들링 스크립트 -->
     <script>
         const modal = document.getElementById('eventModal');
         const modalTag = document.getElementById('modalTag');
@@ -591,7 +634,6 @@
         const modalDate = document.getElementById('modalDate');
         const modalDesc = document.getElementById('modalDesc');
 
-        // 1. 시작의 숲 루미나 이벤트 내용
         function showLuminaEvent() {
             modalTag.innerText = 'HOT';
             modalTag.style.background = '#d84315';
@@ -608,7 +650,6 @@
             modal.classList.add('active');
         }
 
-        // 2. 바람개비 평야 플로라 이벤트 내용
         function showFloraEvent() {
             modalTag.innerText = 'NEW';
             modalTag.style.background = '#0288d1';
@@ -625,7 +666,6 @@
             modal.classList.add('active');
         }
 
-        // 3. 노을빛 무역항 마르카토 이벤트 내용
         function showMarcatoEvent() {
             modalTag.innerText = 'NOTICE';
             modalTag.style.background = '#6a5acd';
