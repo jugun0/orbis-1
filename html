@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORBIS : THE INFINITE TALES</title>
+    <style>
+        /* 기본 스타일 리셋 및 폰트 설정 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        /* 배경 이미지 및 파스텔톤 오버레이 */
+        .bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070') center/cover no-repeat;
+            filter: brightness(0.8) saturate(1.2);
+            z-index: 1;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(230, 215, 255, 0.3) 0%, rgba(215, 235, 255, 0.3) 100%);
+            z-index: 2;
+        }
+
+        /* 메인 UI 컨테이너 */
+        .ui-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            color: #fff;
+            text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 상단 인포 헤더 */
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .archive-tag {
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: #e0d5ff;
+            font-weight: 500;
+        }
+
+        .ver-tag {
+            border: 1px solid rgba(224, 213, 255, 0.6);
+            padding: 4px 12px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            background: rgba(224, 213, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* 중앙 타이틀 & 로그인 박스 */
+        .main-content {
+            align-self: center;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .game-title {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .game-subtitle {
+            font-size: 16px;
+            letter-spacing: 4px;
+            color: #d1c4e9;
+            margin-bottom: 40px;
+        }
+
+        /* 시스템 알림창 스타일 */
+        .login-box {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+        }
+
+        .sys-alert {
+            font-size: 11px;
+            color: #ffb74d;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .sys-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #f5f5f5;
+            margin-bottom: 25px;
+            word-break: keep-all;
+        }
+
+        .waiting-text {
+            font-size: 13px;
+            color: #b3e5fc;
+            margin-bottom: 20px;
+        }
+
+        /* 접속 버튼 (호버 애니메이션 포함) */
+        .connect-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px 0;
+            background: linear-gradient(90deg, #b39ddb, #81d4fa);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(179, 157, 219, 0.4);
+        }
+
+        .connect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(129, 212, 250, 0.6);
+            letter-spacing: 4px;
+        }
+
+        /* 하단 캐릭터 프로필 스낵바 */
+        .footer-profile {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border-left: 4px solid #b39ddb;
+        }
+
+        .char-info h1 {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .char-info span {
+            font-size: 12px;
+            color: #e0e0e0;
+            margin-left: 8px;
+        }
+
+        .char-desc {
+            font-size: 13px;
+            color: #b0bec5;
+            margin-top: 5px;
+        }
+
+        .sys-status {
+            font-size: 12px;
+            color: #81c784;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-container"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="ui-wrapper">
+        <!-- 상단 헤더 -->
+        <div class="header-info">
+            <div class="archive-tag">◈ WORLD_ARCHIVE</div>
+            <div class="ver-tag">VER 5.2</div>
+        </div>
+
+        <!-- 중앙 로그인 구역 -->
+        <div class="main-content">
+            <h1 class="game-title">오르비스 온라인</h1>
+            <p class="game-subtitle">ORBIS : THE INFINITE TALES</p>
+
+            <div class="login-box">
+                <div class="sys-alert">[ SYSTEM · ALERT ] 방금 전</div>
+                <p class="sys-text">
+                    정해진 길은 없습니다. 당신이 걷는 곳이 길이 됩니다.<br>
+                    무한의 대륙 오르비스. 이제 당신이 발자취를 남길 차례입니다.
+                </p>
+                <p class="waiting-text">▶ 지금 수많은 플레이어들이 <strong>user</strong>의 로그인을 기다리고 있습니다.</p>
+                <button class="connect-btn" onclick="alert('오르비스 온라인에 접속합니다... ◈ CONNECTED')">[ 오르비스 접속하기 ]</button>
+            </div>
+        </div>
+
+        <!-- 하단 타겟 캐릭터 정보 (서한결/아티반) -->
+        <div class="footer-profile">
+            <div class="char-info">
+                <h1>아티반 <span>(서한결 · CV. 경제학과 3학년)</span></h1>
+                <p class="char-desc">"안 맞으면 되잖아?" | #서버1위 #능글맞은 #여우 #플러팅</p>
+            </div>
+            <div class="sys-status">SYS_OK ◈ CONNECTED</div>
+        </div>
+    </div>
+
+</body>
+</html>
