@@ -19,26 +19,23 @@
         body, html {
             width: 100%;
             height: 100%;
-            overflow-x: hidden;
-            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            background-color: #2c2543; /* [수정] 혹시 모를 여백도 하얗게 뜨지 않고 어두운 톤으로 마감 */
         }
 
-        /* [기본 배경] 원래 일러스트처럼 밝고 화사함 유지 */
+        /* [핵심 수정] 배경 이미지 레이어들이 무조건 화면 전체 고정(fixed) 크기를 갖도록 하여 잘림 현상 방지 */
         .bg-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('background.png') center/cover no-repeat;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://raw.githubusercontent.com/jugun0/orbis-1/main/background.png') center/cover no-repeat;
             z-index: 1;
             animation: bgBreath 25s infinite alternate ease-in-out;
             filter: brightness(1.05) saturate(1.1);
         }
 
-        /* [이펙트 1] 화면에 오로라가 치는 듯한 몽환적인 빛의 레이어 */
         .aurora-layer {
-            position: absolute;
+            position: fixed;
             top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle at 30% 20%, rgba(224, 242, 255, 0.3) 0%, transparent 40%),
                         radial-gradient(circle at 80% 70%, rgba(230, 215, 255, 0.25) 0%, transparent 45%),
@@ -49,9 +46,8 @@
             pointer-events: none;
         }
 
-        /* [이펙트 2] 하늘에서 사선으로 내리쬐는 영롱한 빛무리(Light Rays) 효과 */
         .light-rays {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(115deg, 
                 rgba(255,255,255,0.2) 0%, 
@@ -66,9 +62,8 @@
             pointer-events: none;
         }
 
-        /* UI 가독성을 조율해주는 미세 보정 오버레이 */
         .bg-overlay {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, 
                 rgba(255, 255, 255, 0.1) 0%, 
@@ -78,9 +73,8 @@
             pointer-events: none;
         }
 
-        /* [업그레이드 파티클] 별빛 가루 이펙트 레이어 1 */
         .sparkles-1 {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 4;
             pointer-events: none;
@@ -95,9 +89,8 @@
             opacity: 0.9;
         }
 
-        /* [업그레이드 파티클] 금빛/은빛 요정의 가루 레이어 2 */
         .sparkles-2 {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 4;
             pointer-events: none;
@@ -112,17 +105,19 @@
             opacity: 0.8;
         }
 
-        /* 메인 UI 컨테이너 */
+        /* [수정] 콘텐츠 정렬 구조 안정화 */
         .ui-wrapper {
             position: relative;
             width: 100%;
-            min-height: 100%;
+            height: 100%;
+            min-height: 100vh;
             z-index: 5;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 40px;
             color: #fff;
+            overflow-y: auto; /* 내용이 넘칠 때만 스크롤바 생성 */
         }
 
         /* 상단 헤더 */
@@ -130,6 +125,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            width: 100%;
         }
 
         .archive-tag {
@@ -157,7 +153,7 @@
         /* 타이틀 섹션 */
         .title-section {
             text-align: center;
-            margin-top: 10px;
+            margin: 20px 0;
         }
 
         .game-title {
@@ -178,7 +174,7 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
         }
 
-        /* 중앙 메인 콘텐츠 배열 */
+        /* 중앙 콘텐츠 배치 조율 */
         .center-content {
             display: flex;
             justify-content: space-between;
@@ -186,7 +182,7 @@
             width: 100%;
             max-width: 1250px;
             margin: auto;
-            padding: 30px 0;
+            padding: 20px 0;
             gap: 40px;
         }
 
@@ -383,7 +379,8 @@
             align-items: center;
             border-top: 1px solid rgba(74, 59, 112, 0.15);
             padding-top: 20px;
-            margin-top: 20px;
+            margin-top: auto; /* 푸터가 항상 하단에 붙어있도록 유도 */
+            width: 100%;
         }
 
         .footer-left-btns { display: flex; gap: 15px; }
@@ -419,7 +416,7 @@
 
         /* 팝업창(모달) 레이어 구조 */
         .modal-overlay {
-            position: fixed; /* 절대 위치에서 고정 위치로 모바일 화면 스크롤 완벽 대응 */
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(44, 37, 67, 0.4);
             backdrop-filter: blur(10px);
@@ -505,18 +502,16 @@
         .modal-close-btn:hover { background: #6a5acd; }
 
         /* -----------------------------------------------------------------
-           ★ 모바일 / 태블릿 완벽 대응을 위한 미디어 쿼리 (반응형 설계)
+           ★ 반응형 미디어 쿼리 (태블릿, 모바일 전용 조율)
         ----------------------------------------------------------------- */
         @media (max-width: 900px) {
-            body, html {
-                overflow-y: auto; /* 모바일에서 위아래로 자연스럽게 스크롤 되도록 허용 */
-            }
             .ui-wrapper {
                 padding: 20px;
+                height: auto;
                 min-height: 100vh;
             }
             .game-title {
-                font-size: 38px; /* 폰 크기에 맞게 폰트 크기 축소 */
+                font-size: 38px;
                 letter-spacing: 4px;
             }
             .game-subtitle {
@@ -524,7 +519,7 @@
                 letter-spacing: 4px;
             }
             .center-content {
-                flex-direction: column-reverse; /* 모바일 전용: 로그인을 위로, 이벤트를 아래로 배치 */
+                flex-direction: column-reverse; /* 모바일: 로그인 위로, 이벤트 아래로 */
                 gap: 25px;
                 padding: 20px 0;
             }
@@ -555,6 +550,7 @@
                 gap: 15px;
                 text-align: center;
                 padding-bottom: 10px;
+                margin-top: 20px;
             }
             .footer-left-btns {
                 width: 100%;
@@ -589,6 +585,7 @@
 </head>
 <body>
 
+    <!-- 고정 배치(fixed)로 전환되어 늘어나도 절대 잘리지 않는 이펙트 배경 레이어들 -->
     <div class="bg-container"></div>
     <div class="aurora-layer"></div>
     <div class="light-rays"></div>
@@ -681,7 +678,6 @@
         </div>
     </div>
 
-    <!-- 스크립트 생략 없이 그대로 유지 -->
     <script>
         const modal = document.getElementById('eventModal');
         const modalTag = document.getElementById('modalTag');
