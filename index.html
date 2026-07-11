@@ -19,60 +19,72 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #050510;
+            background-color: #f0f4f8;
         }
 
-        /* [1번 요구사항] 첨부하신 배경 이미지를 사용하는 영역 */
+        /* 배경 이미지를 원래 일러스트처럼 밝고 화사하게 유지 */
         .bg-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* 💡 같은 폴더에 background.png로 저장하거나, 아래 경로를 수정하세요 */
             background: url('background.png') center/cover no-repeat;
             z-index: 1;
-            /* 은은하게 숨쉬듯 커졌다 작아지 게임 배경 애니메이션 */
-            animation: bgBreath 20s infinite alternate ease-in-out;
+            animation: bgBreath 25s infinite alternate ease-in-out;
+            filter: brightness(1.05) saturate(1.1);
         }
 
-        /* 몽환적인 파스텔톤 오버레이 + 어두운 그라데이션 (UI 가독성 확보) */
+        /* 화사한 빛샘 효과 스타일의 투명 오버레이 */
         .bg-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, 
-                rgba(230, 215, 255, 0.15) 0%, 
-                rgba(10, 10, 25, 0.4) 50%, 
-                rgba(5, 5, 15, 0.85) 100%);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                rgba(230, 242, 255, 0.1) 50%, 
+                rgba(15, 20, 40, 0.45) 100%);
             z-index: 2;
         }
 
-        /* [3번 요구사항] 게임 특유의 이펙트 레이어 (빛무리 & 안개 효과) */
-        .particles {
+        /* 반짝반짝 빛나는 별빛 파티클 효과 레이어 */
+        .sparkles {
             position: absolute;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
-            z-index: 2;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 0%, rgba(5,5,15,0.3) 100%);
+            width: 100%;
+            height: 100%;
+            z-index: 3;
             pointer-events: none;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+                radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.9) 2px, transparent 2px),
+                radial-gradient(circle at 40% 40%, rgba(230, 240, 255, 0.8) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 90% 85%, rgba(255, 215, 0, 0.6) 2px, transparent 2px),
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+            background-size: 400px 400px;
+            animation: sparkleUp 12s infinite linear;
+            opacity: 0.85;
         }
 
-        /* 움직이는 가상 안개/빛 효과 */
-        .particles::before {
-            content: '';
+        .sparkles-delayed {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background-image: radial-gradient(rgba(224, 213, 255, 0.08) 10%, transparent 20%);
-            background-size: 40px 40px;
-            animation: particleMove 30s infinite linear;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.85) 2px, transparent 2px),
+                radial-gradient(circle at 30% 15%, rgba(135, 206, 250, 0.7) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.9) 1px, transparent 1px);
+            background-size: 300px 300px;
+            animation: sparkleUp 8s infinite linear;
+            animation-delay: 4s;
+            opacity: 0.75;
         }
 
         /* 메인 UI 컨테이너 */
@@ -80,7 +92,7 @@
             position: relative;
             width: 100%;
             height: 100%;
-            z-index: 3;
+            z-index: 4;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -98,75 +110,79 @@
         .archive-tag {
             font-size: 14px;
             letter-spacing: 4px;
-            color: #d1c4e9;
-            font-weight: 500;
+            color: #4a3b70;
+            font-weight: 700;
             font-family: 'Cinzel', serif;
-            text-shadow: 0 0 10px rgba(209, 196, 233, 0.6);
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
         }
 
         .ver-tag {
-            border: 1px solid rgba(224, 213, 255, 0.4);
+            border: 1px solid rgba(74, 59, 112, 0.4);
             padding: 4px 14px;
             font-size: 12px;
             letter-spacing: 1px;
-            background: rgba(224, 213, 255, 0.1);
+            background: rgba(255, 255, 255, 0.4);
+            color: #4a3b70;
+            font-weight: bold;
             border-radius: 4px;
             font-family: 'Cinzel', serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         /* 타이틀 섹션 */
         .title-section {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .game-title {
-            font-size: 52px;
+            font-size: 56px;
             font-weight: 700;
-            letter-spacing: 6px;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 4px 10px rgba(0,0,0,0.7);
+            letter-spacing: 8px;
+            color: #2c2543;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 2px 4px rgba(74, 59, 112, 0.2);
         }
 
         .game-subtitle {
-            font-size: 14px;
-            letter-spacing: 6px;
-            color: #b39ddb;
+            font-size: 15px;
+            letter-spacing: 7px;
+            color: #6a5acd;
             margin-top: 5px;
             font-family: 'Cinzel', serif;
-            text-shadow: 0 0 8px rgba(179, 157, 219, 0.5);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
         }
 
-        /* 중앙 메인 콘텐츠 배열 (좌: 이벤트, 우: 로그인화면) */
+        /* 중앙 메인 콘텐츠 배열 */
         .center-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1250px;
             margin: 0 auto;
-            padding: 20px 0;
+            padding: 10px 0;
         }
 
-        /* [2번 요구사항] 좌측 이벤트 정보 보드 디자인 */
+        /* 대륙 이벤트 보드 디자인 (유리 느낌) */
         .event-board {
-            width: 45%;
-            background: rgba(10, 10, 25, 0.65);
-            border-left: 4px solid #b39ddb;
-            border-radius: 4px 16px 16px 4px;
+            width: 46%;
+            background: rgba(255, 255, 255, 0.45);
+            border-left: 5px solid #6a5acd;
+            border-radius: 6px 20px 20px 6px;
             padding: 30px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-right: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 35px rgba(104, 90, 189, 0.15), inset 0 0 20px rgba(255,255,255,0.4);
+            border-top: 1px solid rgba(255,255,255,0.5);
+            border-right: 1px solid rgba(255,255,255,0.3);
         }
 
         .event-title {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: bold;
-            color: #e0d5ff;
-            margin-bottom: 20px;
+            color: #2c2543;
+            margin-bottom: 22px;
             letter-spacing: 1px;
             display: flex;
             align-items: center;
@@ -174,219 +190,314 @@
 
         .event-title::before {
             content: 'EVENT';
-            font-size: 10px;
-            background: #b39ddb;
-            color: #100a20;
-            padding: 2px 6px;
-            border-radius: 3px;
-            margin-right: 10px;
+            font-size: 11px;
+            background: #6a5acd;
+            color: #fff;
+            padding: 3px 7px;
+            border-radius: 4px;
+            margin-right: 12px;
             font-family: 'Cinzel', serif;
             font-weight: bold;
         }
 
         .event-item {
             margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid rgba(225,225,225,0.1);
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
         }
-        .event-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
+        .event-item:last-child { margin-bottom: 0; }
+
+        .event-item:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: translateX(6px);
+            box-shadow: 0 5px 15px rgba(104, 90, 189, 0.1);
+            border-color: #6a5acd;
         }
 
         .event-tag {
             display: inline-block;
             font-size: 11px;
-            padding: 2px 6px;
-            background: rgba(129, 212, 250, 0.2);
-            color: #81d4fa;
+            padding: 2px 7px;
+            background: #e1f5fe;
+            color: #0288d1;
             border-radius: 4px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-weight: bold;
         }
         .event-tag.hot {
-            background: rgba(255, 138, 101, 0.2);
-            color: #ff8a65;
+            background: #fbe9e7;
+            color: #d84315;
         }
 
         .event-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #33334d;
             margin-bottom: 4px;
         }
 
         .event-date {
-            font-size: 11px;
-            color: #90a4ae;
+            font-size: 11.5px;
+            color: #666680;
         }
 
-        /* [4번 요구사항] 우측 아이디/비밀번호 로그인 박스 */
+        /* 로그인 박스 (블러 유리 구역) */
         .login-card {
             width: 40%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 35px 30px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255,255,255,0.05);
+            max-width: 410px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            padding: 40px 32px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 15px 40px rgba(104, 90, 189, 0.15), inset 0 0 20px rgba(255,255,255,0.5);
         }
 
         .sys-alert {
-            font-size: 11px;
-            color: #ffd54f;
+            font-size: 12px;
+            color: #b71c1c;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: bold;
             text-align: center;
         }
 
         .waiting-text {
-            font-size: 13px;
-            color: #e0e0e0;
+            font-size: 13.5px;
+            color: #3e3a57;
             text-align: center;
-            margin-bottom: 25px;
-            line-height: 1.4;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
         .waiting-text strong {
-            color: #81d4fa;
-            text-shadow: 0 0 8px rgba(129, 212, 250, 0.4);
+            color: #0288d1;
+            font-weight: 700;
         }
 
-        /* 입력 폼 스타일 */
+        /* 입력 폼 */
         .input-group {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(224, 213, 255, 0.2);
-            border-radius: 8px;
+            padding: 15px 18px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(106, 90, 205, 0.25);
+            border-radius: 12px;
             outline: none;
-            color: #fff;
-            font-size: 14px;
+            color: #2c2543;
+            font-size: 14.5px;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        /* 입력창에 포커스 갔을 때 판타지풍 푸른 네온 효과 */
         .input-group input:focus {
-            border-color: #81d4fa;
-            box-shadow: 0 0 12px rgba(129, 212, 250, 0.4);
-            background: rgba(0, 0, 0, 0.6);
+            border-color: #6a5acd;
+            box-shadow: 0 0 15px rgba(106, 90, 205, 0.25);
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .input-group label {
             position: absolute;
-            left: 16px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
-            color: #b0bec5;
+            color: #666680;
             font-size: 14px;
             pointer-events: none;
             transition: all 0.3s ease;
         }
 
-        /* 인풋에 값이 있거나 포커싱되면 라벨 위로 이동 */
         .input-group input:focus ~ label,
         .input-group input:valid ~ label {
-            top: -8px;
-            left: 10px;
+            top: -10px;
+            left: 12px;
             font-size: 11px;
-            background: #2a243d;
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: #81d4fa;
-            border: 1px solid rgba(129, 212, 250, 0.3);
+            background: #6a5acd;
+            padding: 3px 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
         }
 
         /* 접속 버튼 */
         .connect-btn {
             width: 100%;
-            padding: 15px 0;
-            background: linear-gradient(90deg, #b39ddb, #81d4fa);
+            padding: 16px 0;
+            background: linear-gradient(90deg, #7c4dff, #4fc3f7);
             border: none;
-            border-radius: 8px;
-            color: #100a20;
-            font-size: 15px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
             font-weight: bold;
             letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(179, 157, 219, 0.4);
-            margin-top: 10px;
+            box-shadow: 0 5px 20px rgba(124, 77, 255, 0.3);
+            margin-top: 8px;
         }
 
         .connect-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(129, 212, 250, 0.6);
-            color: #fff;
+            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.5);
             letter-spacing: 4px;
         }
 
-        /* 하단 바 */
+        /* 하단 영역 */
         .footer-area {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(74, 59, 112, 0.15);
             padding-top: 20px;
         }
 
-        /* [5번 요구사항] 왼쪽 하단 공식 홈페이지 & 고객센터 버튼 */
-        .footer-left-btns {
-            display: flex;
-            gap: 15px;
-        }
+        .footer-left-btns { display: flex; gap: 15px; }
 
         .footer-btn {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #cfd8dc;
-            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(74, 59, 112, 0.2);
+            color: #4a3b70;
+            font-weight: 500;
+            padding: 11px 22px;
             font-size: 13px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
         }
 
         .footer-btn:hover {
-            background: rgba(224, 213, 255, 0.15);
-            border-color: #b39ddb;
+            background: #6a5acd;
+            border-color: #6a5acd;
             color: #fff;
+            box-shadow: 0 4px 12px rgba(106, 90, 205, 0.2);
         }
 
         .copyright {
             font-size: 12px;
-            color: #78909c;
+            color: #555570;
+            font-weight: bold;
             letter-spacing: 1px;
             font-family: 'Cinzel', serif;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.6);
         }
 
-        /* --- [3번 요구사항] 애니메이션 정의 효과 --- */
+        /* 팝업창(모달) 레이어 구조 */
+        .modal-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(44, 37, 67, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px rgba(74, 59, 112, 0.25), inset 0 0 30px rgba(255,255,255,0.6);
+            border-radius: 24px;
+            width: 95%;
+            max-width: 520px;
+            padding: 35px;
+            position: relative;
+            transform: scale(0.85);
+            transition: transform 0.3s ease;
+            color: #2c2543;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #6a5acd;
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .modal-title { font-size: 21px; font-weight: 700; margin-bottom: 8px; color: #1a1528; line-height: 1.4; }
+        .modal-date { font-size: 12.5px; color: #666680; margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 10px; }
+        
+        /* 알림창 본문 내 줄바꿈과 세부 디자인용 */
+        .modal-desc { 
+            font-size: 14.5px; 
+            line-height: 1.75; 
+            color: #44445c; 
+            word-break: keep-all; 
+            margin-bottom: 25px; 
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .modal-desc b { color: #5e35b1; }
+        .modal-desc .highlight-box {
+            background: rgba(106, 90, 205, 0.08);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 3px solid #6a5acd;
+            font-size: 13.5px;
+        }
+        
+        .modal-close-btn {
+            width: 100%;
+            padding: 14px 0;
+            background: #2c2543;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 14.5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .modal-close-btn:hover { background: #6a5acd; }
+
+        /* 애니메이션 키프레임 */
         @keyframes bgBreath {
             0% { transform: scale(1.0); }
-            100% { transform: scale(1.04); }
+            100% { transform: scale(1.05); }
         }
 
-        @keyframes particleMove {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes sparkleUp {
+            0% { background-position: 0px 400px; }
+            100% { background-position: 0px 0px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- [1번] 배경 이미지 컨테이너 -->
     <div class="bg-container"></div>
     <div class="bg-overlay"></div>
-    <!-- [3번] 이펙트 레이어 -->
-    <div class="particles"></div>
+    
+    <!-- 반짝이 이펙트 레이어 2단 -->
+    <div class="sparkles"></div>
+    <div class="sparkles-delayed"></div>
 
     <div class="ui-wrapper">
         <!-- 상단 헤더 -->
@@ -395,51 +506,50 @@
             <div class="ver-tag">VER 5.2</div>
         </div>
 
-        <!-- 타이틀 웅장하게 상단 배치 -->
+        <!-- 타이틀 -->
         <div class="title-section">
             <h1 class="game-title">오르비스 온라인</h1>
             <p class="game-subtitle">ORBIS : THE INFINITE TALES</p>
         </div>
 
-        <!-- 중앙 컨텐츠 메인 배열 -->
+        <!-- 중앙 메인 섹션 -->
         <div class="center-content">
             
-            <!-- [2번] 인게임 이벤트 보드 -->
+            <!-- 이벤트 보드 리스트 (클릭 시 전용 스크립트로 팝업 데이터 주입) -->
             <div class="event-board">
                 <div class="event-title">진행 중인 대륙 이벤트</div>
                 
-                <div class="event-item">
+                <div class="event-item" onclick="showLuminaEvent()">
                     <span class="event-tag hot">HOT</span>
                     <div class="event-name">시작의 숲 루미나: 뉴비 정착 지원 버프 캠페인</div>
                     <div class="event-date">2026.07.11 ~ 2026.08.31</div>
                 </div>
 
-                <div class="event-item">
+                <div class="event-item" onclick="showFloraEvent()">
                     <span class="event-tag">NEW</span>
                     <div class="event-name">플로라 평야 하우징 축제 - '최고의 명당을 찾아라'</div>
                     <div class="event-date">2026.07.15 ~ 2026.07.29</div>
                 </div>
 
-                <div class="event-item">
+                <div class="event-item" onclick="showMarcatoEvent()">
                     <span class="event-tag">NOTICE</span>
-                    <div class="event-name">마르카토 야시장 개장 및 시세 안정화 패치 안내</div>
+                    <div class="event-name">노을빛 무역항 마르카토 야시장 개장 및 시세 패치</div>
                     <div class="event-date">상시 진행</div>
                 </div>
             </div>
 
-            <!-- [4번] 로그인 화면 분리 구역 -->
+            <!-- 로그인 카드 -->
             <div class="login-card">
                 <div class="sys-alert">[ SYSTEM · ALERT ]</div>
                 <p class="waiting-text">
-                    플레이어들과 <strong>Ativan711</strong>이<br>
-                    <strong>용사</strong>님의 접속을 기다립니다.
+                    플레이어들과 <strong>서한결</strong>이<br>
+                    <strong>콩먹는콩벌레</strong>님의 접속을 기다립니다.
                 </p>
 
-                <!-- ID/PW 입력란 (required 필수 추가) -->
                 <form onsubmit="event.preventDefault(); alert('오르비스 온라인에 접속합니다... ◈ CONNECTED');">
                     <div class="input-group">
                         <input type="text" id="userId" required autocomplete="off">
-                        <label for="userId">계정 ID (or 이메일)</label>
+                        <label for="userId">계정 ID</label>
                     </div>
                     <div class="input-group">
                         <input type="password" id="userPw" required>
@@ -454,17 +564,86 @@
 
         <!-- 하단 영역 -->
         <div class="footer-area">
-            <!-- [5번] 왼쪽 하단 공식 홈페이지 & 고객센터 버튼 -->
             <div class="footer-left-btns">
                 <button class="footer-btn" onclick="alert('공식 홈페이지는 현재 정기 점검 및 업데이트 준비 중입니다.')">공식 홈페이지</button>
-                
-                <!-- 클릭 시 이메일 작성 창(mailto)이 열리도록 연동 -->
                 <button class="footer-btn" onclick="location.href='mailto:support@orbis-online.com?subject=[오르비스 온라인 문의]'">고객센터</button>
             </div>
-            
             <div class="copyright">© ORBIS ONLINE. ALL RIGHTS RESERVED.</div>
         </div>
     </div>
 
+    <!-- 팝업창(모달) 레이어 구조 -->
+    <div class="modal-overlay" id="eventModal" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span class="modal-tag" id="modalTag">HOT</span>
+            <h2 class="modal-title" id="modalTitle">이벤트 제목</h2>
+            <div class="modal-date" id="modalDate">이벤트 기간</div>
+            <div class="modal-desc" id="modalDesc">이벤트 상세 내용이 들어갑니다.</div>
+            <button class="modal-close-btn" onclick="closeModal()">확인 및 닫기</button>
+        </div>
+    </div>
+
+    <!-- 팝업별 상세 텍스트 제어 스크립트 -->
+    <script>
+        const modal = document.getElementById('eventModal');
+        const modalTag = document.getElementById('modalTag');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDate = document.getElementById('modalDate');
+        const modalDesc = document.getElementById('modalDesc');
+
+        // 1. 시작의 숲 루미나 이벤트 내용
+        function showLuminaEvent() {
+            modalTag.innerText = 'HOT';
+            modalTag.style.background = '#d84315';
+            modalTitle.innerText = '시작의 숲, 루미나 : 뉴비 정착 지원 버프 캠페인';
+            modalDate.innerText = '기간: 2026.07.11 ~ 2026.08.31';
+            modalDesc.innerHTML = `
+                🌱 <b>모든 모험이 시작되는 튜토리얼 지역, 루미나의 숲에 축복이 가득 내립니다!</b><br><br>
+                새로 진입하는 뉴비들의 정착과 고인물 플레이어들의 훈훈한 만남을 지원하기 위한 특별 프로모션을 확인해 보세요.<br><br>
+                <b>[캠페인 주요 혜택 안내]</b><br>
+                1. <b>생활 콘텐츠 부스팅</b>: 루미나 전 지역에서 채집 숙련도 및 낚시 대성공 확률이 상시 2배 증가합니다.<br>
+                2. <b>유망주 스카우트 버프</b>: Lv.20 이하의 초보 모험가와 파티를 맺고 필드 사냥 시, 파티원 전체 <b>경험치 획득량 +30%</b>가 부여됩니다.<br><br>
+                화려한 코스튬을 뽐내며 루미나 광장에서 잠수 중인 랭커분들도 지금 초보자들을 스카우트해 대형 길드의 유망주로 키워보세요!
+            `;
+            modal.classList.add('active');
+        }
+
+        // 2. 바람개비 평야 플로라 이벤트 내용
+        function showFloraEvent() {
+            modalTag.innerText = 'NEW';
+            modalTag.style.background = '#0288d1';
+            modalTitle.innerText = '바람개비 평야, 플로라 : 하우징 축제 - "최고의 명당을 찾아라"';
+            modalDate.innerText = '기간: 2026.07.15 ~ 2026.07.29';
+            modalDesc.innerHTML = `
+                🏡 <b>개인 하우징이 시작되는 풍요로운 농경 지대, 플로라 평야의 대규모 부지 확장 축제!</b><br><br>
+                여유로운 전원생활을 꿈꾸는 수많은 모험가님들을 위해 하우징 전용 가구 및 영토 자원 혜택이 쏟아집니다.<br><br>
+                <b>[하우징 축제 핵심 요약]</b><br>
+                1. <b>건축 자재 소모량 40% 감소</b>: 하우징 부지 확장 및 가구 제작에 드는 모든 재료가 대폭 축소됩니다.<br>
+                2. <b>명당 선점 눈치싸움 코인</b>: 플로라 평야의 뷰가 좋은 노다지 입지를 선점할 수 있는 '우선 건축권' 응모 티켓을 매일 접속 시 지급합니다.<br><br>
+                <div class="highlight-box">📢 <b>공식 스크린샷 챌린지!</b><br>나만의 예쁜 인테리어를 뽐내보세요. 추첨을 통해 <b>플로라 평야 최고급 황금 부지 무료 이용권</b>을 선물합니다!</div>
+            `;
+            modal.classList.add('active');
+        }
+
+        // 3. 노을빛 무역항 마르카토 이벤트 내용
+        function showMarcatoEvent() {
+            modalTag.innerText = 'NOTICE';
+            modalTag.style.background = '#6a5acd';
+            modalTitle.innerText = '노을빛 무역항, 마르카토 : 야시장 대개장 및 경매장 시세 조율 패치';
+            modalDate.innerText = '기간: 상시 진행 (정기 패치 완료)';
+            modalDesc.innerHTML = `
+                💰 <b>대륙의 모든 귀한 재료와 골드가 모이는 거대한 상업 도시 마르카토의 소식입니다.</b><br><br>
+                유유자적한 야시장 관광객부터 대륙의 경제를 쥐고 흔드는 거상들까지 모두 주목해야 할 대대적인 무역 연동 시스템입니다.<br><br>
+                <b>[업데이트 상세 세부내용]</b><br>
+                1. <b>마르카토 야시장 정식 오픈</b>: 매일 저녁 20:00 ~ 24:00 사이에 무역항 남쪽에 특수 야시장 상인이 등장합니다. <b>한정판 요리 레시피 및 특수 연금술 재료</b>를 한정 수량 거래할 수 있습니다.<br>
+                2. <b>시세 조작 방지 시스템 가동</b>: 특정 세력의 독과점 및 악의적인 아이템 매점매석을 방지하기 위해 경매장의 일일 등록 한도와 실시간 변동 상하한가가 적용됩니다.
+            `;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+    </script>
 </body>
 </html>
