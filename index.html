@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ORBIS : THE INFINITE TALES</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&family=Cinzel:wght@600;700&display=swap');
@@ -13,12 +13,13 @@
             box-sizing: border-box;
             font-family: 'Noto Sans KR', sans-serif;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         body, html {
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow-x: hidden;
             background-color: #f0f4f8;
         }
 
@@ -35,7 +36,7 @@
             filter: brightness(1.05) saturate(1.1);
         }
 
-        /* [신규 이펙트 1] 화면에 오로라가 치는 듯한 몽환적인 빛의 레이어 */
+        /* [이펙트 1] 화면에 오로라가 치는 듯한 몽환적인 빛의 레이어 */
         .aurora-layer {
             position: absolute;
             top: -50%; left: -50%; width: 200%; height: 200%;
@@ -44,11 +45,11 @@
                         radial-gradient(circle at 50% 50%, rgba(255, 240, 245, 0.2) 0%, transparent 50%);
             z-index: 2;
             animation: auroraRotate 30s infinite linear;
-            mix-blend-mode: color-dodge; /* 아래 배경과 빛을 겹치게 만들어 화사함 증폭 */
+            mix-blend-mode: color-dodge;
             pointer-events: none;
         }
 
-        /* [신규 이펙트 2] 하늘에서 사선으로 내리쬐는 영롱한 빛무리(Light Rays) 효과 */
+        /* [이펙트 2] 하늘에서 사선으로 내리쬐는 영롱한 빛무리(Light Rays) 효과 */
         .light-rays {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -72,7 +73,7 @@
             background: linear-gradient(135deg, 
                 rgba(255, 255, 255, 0.1) 0%, 
                 rgba(240, 245, 255, 0.05) 60%, 
-                rgba(25, 20, 45, 0.35) 100%); /* 하단 가독성 확보 */
+                rgba(25, 20, 45, 0.35) 100%);
             z-index: 3;
             pointer-events: none;
         }
@@ -94,7 +95,7 @@
             opacity: 0.9;
         }
 
-        /* [업그레이드 파티클] 금빛/은빛 요정의 가루 레이어 2 (서로 다른 속도로 교차) */
+        /* [업그레이드 파티클] 금빛/은빛 요정의 가루 레이어 2 */
         .sparkles-2 {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -115,7 +116,7 @@
         .ui-wrapper {
             position: relative;
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             z-index: 5;
             display: flex;
             flex-direction: column;
@@ -184,13 +185,14 @@
             align-items: center;
             width: 100%;
             max-width: 1250px;
-            margin: 0 auto;
-            padding: 10px 0;
+            margin: auto;
+            padding: 30px 0;
+            gap: 40px;
         }
 
         /* 대륙 이벤트 보드 디자인 (유리모드) */
         .event-board {
-            width: 46%;
+            width: 50%;
             background: rgba(255, 255, 255, 0.45);
             border-left: 5px solid #6a5acd;
             border-radius: 6px 20px 20px 6px;
@@ -271,7 +273,7 @@
 
         /* 로그인 박스 */
         .login-card {
-            width: 40%;
+            width: 45%;
             max-width: 410px;
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -381,6 +383,7 @@
             align-items: center;
             border-top: 1px solid rgba(74, 59, 112, 0.15);
             padding-top: 20px;
+            margin-top: 20px;
         }
 
         .footer-left-btns { display: flex; gap: 15px; }
@@ -416,12 +419,12 @@
 
         /* 팝업창(모달) 레이어 구조 */
         .modal-overlay {
-            position: absolute;
+            position: fixed; /* 절대 위치에서 고정 위치로 모바일 화면 스크롤 완벽 대응 */
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(44, 37, 67, 0.4);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            z-index: 10;
+            z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -436,13 +439,13 @@
         }
 
         .modal-box {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 20px 50px rgba(74, 59, 112, 0.25), inset 0 0 30px rgba(255,255,255,0.6);
             border-radius: 24px;
-            width: 95%;
+            width: 90%;
             max-width: 520px;
-            padding: 35px;
+            padding: 30px;
             position: relative;
             transform: scale(0.85);
             transition: transform 0.3s ease;
@@ -464,16 +467,16 @@
             margin-bottom: 12px;
         }
 
-        .modal-title { font-size: 21px; font-weight: 700; margin-bottom: 8px; color: #1a1528; line-height: 1.4; }
-        .modal-date { font-size: 12.5px; color: #666680; margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 10px; }
+        .modal-title { font-size: 19px; font-weight: 700; margin-bottom: 8px; color: #1a1528; line-height: 1.4; }
+        .modal-date { font-size: 12px; color: #666680; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 10px; }
         
         .modal-desc { 
-            font-size: 14.5px; 
-            line-height: 1.75; 
+            font-size: 14px; 
+            line-height: 1.7; 
             color: #44445c; 
             word-break: keep-all; 
-            margin-bottom: 25px; 
-            max-height: 280px;
+            margin-bottom: 20px; 
+            max-height: 250px;
             overflow-y: auto;
             padding-right: 5px;
         }
@@ -484,7 +487,7 @@
             border-radius: 8px;
             margin-top: 10px;
             border-left: 3px solid #6a5acd;
-            font-size: 13.5px;
+            font-size: 13px;
         }
         
         .modal-close-btn {
@@ -494,7 +497,7 @@
             color: #fff;
             border: none;
             border-radius: 12px;
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s;
@@ -502,28 +505,82 @@
         .modal-close-btn:hover { background: #6a5acd; }
 
         /* -----------------------------------------------------------------
-           ★ 코드 이펙트를 극대화해주는 강력한 CSS 애니메이션 키프레임들
+           ★ 모바일 / 태블릿 완벽 대응을 위한 미디어 쿼리 (반응형 설계)
         ----------------------------------------------------------------- */
-        
-        /* 1. 배경 완만한 숨쉬기 */
+        @media (max-width: 900px) {
+            body, html {
+                overflow-y: auto; /* 모바일에서 위아래로 자연스럽게 스크롤 되도록 허용 */
+            }
+            .ui-wrapper {
+                padding: 20px;
+                min-height: 100vh;
+            }
+            .game-title {
+                font-size: 38px; /* 폰 크기에 맞게 폰트 크기 축소 */
+                letter-spacing: 4px;
+            }
+            .game-subtitle {
+                font-size: 12px;
+                letter-spacing: 4px;
+            }
+            .center-content {
+                flex-direction: column-reverse; /* 모바일 전용: 로그인을 위로, 이벤트를 아래로 배치 */
+                gap: 25px;
+                padding: 20px 0;
+            }
+            .login-card {
+                width: 100%;
+                max-width: 100%;
+                padding: 25px 20px;
+                border-radius: 20px;
+            }
+            .event-board {
+                width: 100%;
+                padding: 20px;
+                border-radius: 12px;
+            }
+            .event-title {
+                font-size: 17px;
+                margin-bottom: 15px;
+            }
+            .event-item {
+                padding: 12px 14px;
+                margin-bottom: 12px;
+            }
+            .event-name {
+                font-size: 13.5px;
+            }
+            .footer-area {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding-bottom: 10px;
+            }
+            .footer-left-btns {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-btn {
+                flex: 1;
+                max-width: 150px;
+                padding: 10px 0;
+                font-size: 12px;
+            }
+        }
+
+        /* 애니메이션 키프레임 */
         @keyframes bgBreath {
             0% { transform: scale(1.0); }
             100% { transform: scale(1.04); }
         }
-
-        /* 2. 오로라 빛무리 회전 애니메이션 */
         @keyframes auroraRotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* 3. 내리쬐는 세로 빛샘(Shimmer) 좌우 이동 애니메이션 */
         @keyframes rayShimmer {
             0% { background-position: 0% 0%; }
             100% { background-position: 200% 0%; }
         }
-
-        /* 4. 별빛 가루가 무한히 위로 흐르는 애니메이션 */
         @keyframes sparkleUp {
             0% { background-position: 0px 350px; }
             100% { background-position: 0px 0px; }
@@ -532,13 +589,11 @@
 </head>
 <body>
 
-    <!-- 배경 일러스트 위에 실시간 코드 이펙트 레이어들을 얹어 완성도를 극대화 -->
     <div class="bg-container"></div>
     <div class="aurora-layer"></div>
     <div class="light-rays"></div>
     <div class="bg-overlay"></div>
     
-    <!-- 중첩된 무한 루프 입자(파티클) 효과 -->
     <div class="sparkles-1"></div>
     <div class="sparkles-2"></div>
 
@@ -626,7 +681,7 @@
         </div>
     </div>
 
-    <!-- 팝업 데이터 핸들링 스크립트 -->
+    <!-- 스크립트 생략 없이 그대로 유지 -->
     <script>
         const modal = document.getElementById('eventModal');
         const modalTag = document.getElementById('modalTag');
